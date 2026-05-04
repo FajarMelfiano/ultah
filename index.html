@@ -906,7 +906,7 @@
       </div>
       <p class="music-vibe">→ play this for the vibe</p>
     </div>
-    <audio id="audio" src="./src/music.mp3" preload="auto" autoplay>
+    <audio id="audio" src="music.mp3" preload="auto" autoplay>
       <!-- Musik otomatis play saat load -->
     </audio>
   </div>
@@ -942,11 +942,11 @@
   sections.forEach(s => observer.observe(s));
 
   // MUSIC TOGGLE with autoplay
-  let isPlaying = true; // Mulai dengan playing karena autoplay
+  let isPlaying = false; // default false until audio actually plays
   const audio = document.getElementById('audio');
   const btn = document.getElementById('musicBtn');
   
-  // Set initial state
+  // update visual state when audio plays or pauses
   audio.addEventListener('play', () => {
     isPlaying = true;
     btn.querySelector('span').textContent = '⏸';
@@ -957,6 +957,9 @@
     btn.querySelector('span').textContent = '▶';
     btn.classList.remove('playing');
   });
+  
+  // ensure button state is correct if autoplay is blocked
+  btn.querySelector('span').textContent = '▶';
   
   function toggleMusic() {
     if (isPlaying) {
