@@ -974,38 +974,20 @@
   // ensure button state is correct when autoplay is blocked
   btn.querySelector('span').textContent = '▶';
   
-  // Auto-play audio on first interaction (multiple conditions)
+  // Auto-play audio on scroll
   let audioUnlocked = false;
   
   function unlockAudio() {
-    if (audioUnlocked) return; // Prevent duplicate unlocks
+    if (audioUnlocked) return;
     audioUnlocked = true;
     
     const audio = document.querySelector('audio');
     audio.muted = false;
-    audio.play().catch(() => console.log('Autoplay blocked'));
+    audio.play().catch(() => {});
   }
   
-  // Trigger audio unlock on multiple user interactions
-  document.addEventListener('click', unlockAudio);
+  // Trigger audio unlock only on scroll
   document.addEventListener('scroll', unlockAudio);
-  document.addEventListener('mousemove', unlockAudio);
-  document.addEventListener('touchstart', unlockAudio);
-  document.addEventListener('touchend', unlockAudio);
-  document.addEventListener('keydown', unlockAudio);
-  document.addEventListener('keyup', unlockAudio);
-  document.addEventListener('mousedown', unlockAudio);
-  document.addEventListener('mouseup', unlockAudio);
-  document.addEventListener('wheel', unlockAudio);
-  document.addEventListener('pointerdown', unlockAudio);
-  document.addEventListener('pointerup', unlockAudio);
-  
-  // Additional: Hover on specific elements
-  const hoverElements = document.querySelectorAll('.btn-main, .btn-back, .music-btn, .hero-name, .ed-photo, .section, .note-card, .fact-item');
-  hoverElements.forEach(el => {
-    el.addEventListener('mouseenter', unlockAudio);
-    el.addEventListener('pointerenter', unlockAudio);
-  });
   
   function toggleMusic() {
     if (isPlaying) {
