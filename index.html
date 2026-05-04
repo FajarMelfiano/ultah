@@ -974,12 +974,43 @@
   // ensure button state is correct when autoplay is blocked
   btn.querySelector('span').textContent = '▶';
   
-  // Auto-play audio on first click
-  document.addEventListener('click', () => {
+  // Auto-play audio on first interaction (multiple conditions)
+  function unlockAudio() {
     const audio = document.querySelector('audio');
     audio.muted = false;
     audio.play().catch(() => {});
-  }, { once: true });
+    
+    // Remove all event listeners after unlocking
+    document.removeEventListener('click', unlockAudio);
+    document.removeEventListener('scroll', unlockAudio);
+    document.removeEventListener('mousemove', unlockAudio);
+    document.removeEventListener('touchstart', unlockAudio);
+    document.removeEventListener('touchend', unlockAudio);
+    document.removeEventListener('keydown', unlockAudio);
+    document.removeEventListener('keyup', unlockAudio);
+    document.removeEventListener('mousedown', unlockAudio);
+    document.removeEventListener('mouseup', unlockAudio);
+    document.removeEventListener('focus', unlockAudio);
+  }
+  
+  // Trigger audio unlock on multiple user interactions
+  document.addEventListener('click', unlockAudio, { once: true });
+  document.addEventListener('scroll', unlockAudio, { once: true });
+  document.addEventListener('mousemove', unlockAudio, { once: true });
+  document.addEventListener('touchstart', unlockAudio, { once: true });
+  document.addEventListener('touchend', unlockAudio, { once: true });
+  document.addEventListener('keydown', unlockAudio, { once: true });
+  document.addEventListener('keyup', unlockAudio, { once: true });
+  document.addEventListener('mousedown', unlockAudio, { once: true });
+  document.addEventListener('mouseup', unlockAudio, { once: true });
+  document.addEventListener('focus', unlockAudio, { once: true });
+  
+  // Additional: Hover on specific elements
+  const hoverElements = document.querySelectorAll('.btn-main, .btn-back, .music-btn, .hero-name, .ed-photo');
+  hoverElements.forEach(el => {
+    el.addEventListener('mouseenter', unlockAudio, { once: true });
+    el.addEventListener('pointerenter', unlockAudio, { once: true });
+  });
   
   function toggleMusic() {
     if (isPlaying) {
