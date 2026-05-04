@@ -206,6 +206,15 @@
     animation: fadeUp 1s ease 0.8s both;
   }
   .scroll-hint span { animation: bounce 1.5s ease infinite; display: inline-block; }
+  .audio-hint {
+    margin-top: 10px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.35;
+    animation: fadeUp 1s ease 0.9s both;
+  }
 
   /* ─── SECTIONS ─── */
   .section {
@@ -739,6 +748,7 @@
         <span class="hbd-tag">2010 → now</span>
       </div>
       <p class="scroll-hint">scroll down <span>↓</span></p>
+      <p class="audio-hint">tap anywhere on this page to unlock music</p>
     </div>
 
     <!-- HERO DECO RIGHT -->
@@ -906,9 +916,6 @@
       </div>
       <p class="music-vibe">→ play this for the vibe</p>
     </div>
-    <audio id="audio" src="music.mp3" preload="auto" autoplay>
-      <!-- Musik otomatis play saat load -->
-    </audio>
   </div>
 
   <!-- BACK NAV -->
@@ -919,7 +926,7 @@
 
 </div><!-- end page2 -->
 
-<audio id="audio" src="music.mp3" preload="auto" autoplay></audio>
+<audio id="audio" src="music.mp3" preload="auto" autoplay muted playsinline></audio>
 
 <script>
   // PAGE SWITCHING
@@ -948,6 +955,10 @@
   const audio = document.getElementById('audio');
   const btn = document.getElementById('musicBtn');
   
+  // start audio element muted so browser can load it on page 1
+  audio.muted = true;
+  audio.play().catch(() => {});
+  
   // update visual state when audio plays or pauses
   audio.addEventListener('play', () => {
     isPlaying = true;
@@ -960,10 +971,11 @@
     btn.classList.remove('playing');
   });
   
-  // ensure button state is correct if autoplay is blocked
+  // ensure button state is correct when autoplay is blocked
   btn.querySelector('span').textContent = '▶';
   
   function unlockAudio() {
+    audio.muted = false;
     audio.play().catch(() => {});
     document.removeEventListener('click', unlockAudio);
     document.removeEventListener('keydown', unlockAudio);
