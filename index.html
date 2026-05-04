@@ -934,11 +934,15 @@
     document.getElementById('page1').classList.remove('active');
     document.getElementById('page2').classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    audioUnlocked = false; // Reset untuk autoplay di page 2
+    unlockAudio();
   }
   function goToPage1() {
     document.getElementById('page2').classList.remove('active');
     document.getElementById('page1').classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    audioUnlocked = false; // Reset untuk autoplay di page 1
+    unlockAudio();
   }
 
   // SCROLL REVEAL
@@ -1001,9 +1005,13 @@
     }, 50);
   }
   
-  // Trigger audio unlock on scroll or click
-  document.addEventListener('scroll', unlockAudio, true);
+  // Trigger audio unlock on click only
   document.addEventListener('click', unlockAudio, true);
+  
+  // Auto-play saat page pertama kali load setelah 100ms
+  setTimeout(() => {
+    unlockAudio();
+  }, 100);
   
   function toggleMusic() {
     if (isPlaying) {
