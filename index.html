@@ -961,6 +961,17 @@
   // ensure button state is correct if autoplay is blocked
   btn.querySelector('span').textContent = '▶';
   
+  function unlockAudio() {
+    audio.play().catch(() => {});
+    document.removeEventListener('click', unlockAudio);
+    document.removeEventListener('keydown', unlockAudio);
+    document.removeEventListener('touchstart', unlockAudio);
+  }
+  
+  document.addEventListener('click', unlockAudio, { once: true });
+  document.addEventListener('keydown', unlockAudio, { once: true });
+  document.addEventListener('touchstart', unlockAudio, { once: true });
+  
   function toggleMusic() {
     if (isPlaying) {
       audio.pause();
