@@ -974,17 +974,12 @@
   // ensure button state is correct when autoplay is blocked
   btn.querySelector('span').textContent = '▶';
   
-  function unlockAudio() {
+  // Auto-play audio on first click
+  document.addEventListener('click', () => {
+    const audio = document.querySelector('audio');
     audio.muted = false;
     audio.play().catch(() => {});
-    document.removeEventListener('click', unlockAudio);
-    document.removeEventListener('keydown', unlockAudio);
-    document.removeEventListener('touchstart', unlockAudio);
-  }
-  
-  document.addEventListener('click', unlockAudio, { once: true });
-  document.addEventListener('keydown', unlockAudio, { once: true });
-  document.addEventListener('touchstart', unlockAudio, { once: true });
+  }, { once: true });
   
   function toggleMusic() {
     if (isPlaying) {
