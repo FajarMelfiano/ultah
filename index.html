@@ -975,41 +975,36 @@
   btn.querySelector('span').textContent = '▶';
   
   // Auto-play audio on first interaction (multiple conditions)
+  let audioUnlocked = false;
+  
   function unlockAudio() {
+    if (audioUnlocked) return; // Prevent duplicate unlocks
+    audioUnlocked = true;
+    
     const audio = document.querySelector('audio');
     audio.muted = false;
-    audio.play().catch(() => {});
-    
-    // Remove all event listeners after unlocking
-    document.removeEventListener('click', unlockAudio);
-    document.removeEventListener('scroll', unlockAudio);
-    document.removeEventListener('mousemove', unlockAudio);
-    document.removeEventListener('touchstart', unlockAudio);
-    document.removeEventListener('touchend', unlockAudio);
-    document.removeEventListener('keydown', unlockAudio);
-    document.removeEventListener('keyup', unlockAudio);
-    document.removeEventListener('mousedown', unlockAudio);
-    document.removeEventListener('mouseup', unlockAudio);
-    document.removeEventListener('focus', unlockAudio);
+    audio.play().catch(() => console.log('Autoplay blocked'));
   }
   
   // Trigger audio unlock on multiple user interactions
-  document.addEventListener('click', unlockAudio, { once: true });
-  document.addEventListener('scroll', unlockAudio, { once: true });
-  document.addEventListener('mousemove', unlockAudio, { once: true });
-  document.addEventListener('touchstart', unlockAudio, { once: true });
-  document.addEventListener('touchend', unlockAudio, { once: true });
-  document.addEventListener('keydown', unlockAudio, { once: true });
-  document.addEventListener('keyup', unlockAudio, { once: true });
-  document.addEventListener('mousedown', unlockAudio, { once: true });
-  document.addEventListener('mouseup', unlockAudio, { once: true });
-  document.addEventListener('focus', unlockAudio, { once: true });
+  document.addEventListener('click', unlockAudio);
+  document.addEventListener('scroll', unlockAudio);
+  document.addEventListener('mousemove', unlockAudio);
+  document.addEventListener('touchstart', unlockAudio);
+  document.addEventListener('touchend', unlockAudio);
+  document.addEventListener('keydown', unlockAudio);
+  document.addEventListener('keyup', unlockAudio);
+  document.addEventListener('mousedown', unlockAudio);
+  document.addEventListener('mouseup', unlockAudio);
+  document.addEventListener('wheel', unlockAudio);
+  document.addEventListener('pointerdown', unlockAudio);
+  document.addEventListener('pointerup', unlockAudio);
   
   // Additional: Hover on specific elements
-  const hoverElements = document.querySelectorAll('.btn-main, .btn-back, .music-btn, .hero-name, .ed-photo');
+  const hoverElements = document.querySelectorAll('.btn-main, .btn-back, .music-btn, .hero-name, .ed-photo, .section, .note-card, .fact-item');
   hoverElements.forEach(el => {
-    el.addEventListener('mouseenter', unlockAudio, { once: true });
-    el.addEventListener('pointerenter', unlockAudio, { once: true });
+    el.addEventListener('mouseenter', unlockAudio);
+    el.addEventListener('pointerenter', unlockAudio);
   });
   
   function toggleMusic() {
